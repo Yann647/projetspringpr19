@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<div layout:fragment="content">
+    <div class="card" style="width: 48rem;">
+        <div class="card-header">
+            Modification de l'Étudiant
+        </div>
+        <div class="card-body">
+            <form th:action="@{/etudiants/update}" th:method="POST" th:object="${etudiant}">
+                <input type="hidden" th:value="${etudiant.id}" name="id">
+                <div class="mb-3">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-control" th:value="${etudiant.nom}" name="nom" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Prénom</label>
+                    <input type="text" class="form-control" th:value="${etudiant.prenom}" name="prenom" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Matricule</label>
+                    <input type="text" class="form-control" th:value="${etudiant.matricule}" name="matricule" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Classe</label>
+                    <select class="form-control" name="classe" th:value="${etudiant.classe.id}" th:field="*{classe.id}">
+                        <option th:each="classe : ${classes}" th:value="${classe.id}" th:text="${classe.libelle}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Terminer</button>
+                <button type="reset" class="btn btn-primary">Annuler</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

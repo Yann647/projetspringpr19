@@ -1,0 +1,88 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Gestion Scolaire</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mt-4">Bienvenue dans le système de gestion scolaire</h1>
+    <p class="text-center mb-5">Utilisez les options ci-dessous pour gérer les entités de l'application.</p>
+
+    <div class="card-group">
+        <!-- Card for User Management -->
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 font-weight-medium" th:text="${userCount}">0</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 text-truncate">Nombre d'Utilisateurs</h6>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="opacity-7 text-muted"><i data-feather="user"></i></span>
+                    </div>
+                </div>
+                <a th:href="@{/users}" class="btn btn-primary mt-3">Voir Utilisateurs</a>
+            </div>
+        </div>
+
+        <!-- Card for Agent Management -->
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 font-weight-medium" th:text="${agentCount}">0</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 text-truncate">Nombre d'Agents</h6>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="opacity-7 text-muted"><i data-feather="users"></i></span>
+                    </div>
+                </div>
+                <a th:href="@{/agents}" class="btn btn-primary mt-3">Voir Agents</a>
+            </div>
+        </div>
+
+        <!-- Card for Class Management -->
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 font-weight-medium" th:text="${classCount}">0</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 text-truncate">Nombre de Classes</h6>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="opacity-7 text-muted"><i data-feather="book"></i></span>
+                    </div>
+                </div>
+                <a th:href="@{/classes}" class="btn btn-primary mt-3">Voir Classes</a>
+            </div>
+        </div>
+
+        <!-- Card for Student Management -->
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 font-weight-medium" th:text="${studentCount}">0</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 text-truncate">Nombre d'Étudiants</h6>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="opacity-7 text-muted"><i data-feather="user-check"></i></span>
+                    </div>
+                </div>
+                <a th:href="@{/etudiants}" class="btn btn-primary mt-3">Voir Étudiants</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+    feather.replace();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<div layout:fragment="content">
+    <div class="card" style="width: 48rem;">
+        <div class="card-header">Ajout d'une Classe</div>
+        <div class="card-body">
+            <form th:action="@{/classes/save}" th:method="POST" th:object="${classe}">
+                <div class="mb-3">
+                    <label class="form-label">Niveau</label>
+                    <select class="form-control" id="niveau" name="niveau" required>
+                        <option value="L1">L1</option>
+                        <option value="L2">L2</option>
+                        <option value="L3">L3</option>
+                        <option value="M1">M1</option>
+                        <option value="M2">M2</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Spécialité</label>
+                    <select class="form-control" id="specialite" name="specialite" required>
+                        <option value="GENIE LOGICIEL">GENIE LOGICIEL</option>
+                        <option value="IAGE">IAGE</option>
+                        <option value="RESEAUX">RESEAUX</option>
+                        <option value="GESTION">GESTION</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Terminer</button>
+                <button type="reset" class="btn btn-secondary">Annuler</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <a th:href="@{/etudiants/ajout}" class="btn btn-primary">Ajouter</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Matricule</th>
+                                <th>Classe</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="etudiant : ${etudiants}">
+                                <td th:text="${etudiant.id}"> </td>
+                                <td th:text="${etudiant.nom}"> </td>
+                                <td th:text="${etudiant.prenom}"> </td>
+                                <td th:text="${etudiant.matricule}"> </td>
+                                <td th:text="${etudiant.classe.libelle}"> </td>
+                                <td>
+                                    <a class="btn btn-primary" th:href="@{'/etudiants/edit/'+${etudiant.id}}">edit</a>
+                                    <a class="btn btn-danger" th:href="@{'/etudiants/supprimer/'+${etudiant.id}}">supprimer</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

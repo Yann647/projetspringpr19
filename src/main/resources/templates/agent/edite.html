@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<div layout:fragment="content">
+    <div class="card" style="width: 48rem;">
+        <div class="card-header">
+            Modification de l'Agent
+        </div>
+        <div class="card-body">
+            <form th:action="@{/agents/update}" th:method="POST" th:object="${agent}">
+                <input type="hidden" th:value="${agent.id}" name="id">
+                <div class="mb-3">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-control" th:value="${agent.nom}" name="nom" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Prénom</label>
+                    <input type="text" class="form-control" th:value="${agent.prenom}" name="prenom" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Téléphone</label>
+                    <input type="text" class="form-control" th:value="${agent.telephone}" name="telephone" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Âge</label>
+                    <input type="number" class="form-control" th:value="${agent.age}" name="age" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Terminer</button>
+                <button type="reset" class="btn btn-primary">Annuler</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

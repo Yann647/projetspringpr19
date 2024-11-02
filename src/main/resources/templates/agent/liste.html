@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <a th:href="@{/agents/ajout}" class="btn btn-primary">Ajouter</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Téléphone</th>
+                                <th>Âge</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="agent : ${agents}">
+                                <td th:text="${agent.id}"> </td>
+                                <td th:text="${agent.nom}"> </td>
+                                <td th:text="${agent.prenom}"> </td>
+                                <td th:text="${agent.telephone}"> </td>
+                                <td th:text="${agent.age}"> </td>
+                                <td>
+                                    <a class="btn btn-primary" th:href="@{'/agents/edit/'+${agent.id}}">edit</a>
+                                    <a class="btn btn-danger" th:href="@{'/agents/supprimer/'+${agent.id}}">supprimer</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
