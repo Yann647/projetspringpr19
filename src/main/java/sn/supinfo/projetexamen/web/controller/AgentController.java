@@ -6,11 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import sn.supinfo.projetexamen.model.Agent;
 import sn.supinfo.projetexamen.repository.AgentRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("agent")
 public class AgentController {
 
     private final AgentRepository agentRepository;
@@ -19,37 +16,37 @@ public class AgentController {
         this.agentRepository = agentRepository;
     }
 
-    @GetMapping("/liste")
+    @RequestMapping(value = "agent/liste")
     public String listAgents(Model model) {
         model.addAttribute("agents", agentRepository.findAll());
         return "agent/liste";
     }
 
-    @GetMapping("/ajout")
+    @RequestMapping(value = "agent/ajout")
     public String addAgent(Model model) {
         model.addAttribute("agent", new Agent());
         return "agent/add";
     }
 
-    @GetMapping("/edit/{id}")
+    @RequestMapping(value = "agent/edit/{id}")
     public String editAgent(@PathVariable long id, Model model) {
         model.addAttribute("agent", agentRepository.findById(id).orElse(null));
         return "agent/edite";
     }
 
-    @PostMapping("/save")
+    @RequestMapping(value = "agent/save")
     public String saveAgent(@ModelAttribute Agent agent) {
         agentRepository.save(agent);
         return "redirect:/agent/liste";
     }
 
-    @PostMapping("/update")
+    @RequestMapping(value = "agent/update")
     public String updateAgent(@ModelAttribute Agent agent) {
         agentRepository.save(agent);
         return "redirect:/agent/liste";
     }
 
-    @GetMapping("/supprimer/{id}")
+    @RequestMapping(value = "agent/supprimer/{id}")
     public String deleteAgent(@PathVariable long id) {
         agentRepository.deleteById(id);
         return "redirect:/agent/liste";

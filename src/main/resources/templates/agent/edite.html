@@ -9,7 +9,7 @@
             Modification de l'Agent
         </div>
         <div class="card-body">
-            <form th:action="@{/agents/update}" th:method="POST" th:object="${agent}">
+            <form th:action="@{/agent/update}" th:method="POST" th:object="${agent}">
                 <input type="hidden" th:value="${agent.id}" name="id">
                 <div class="mb-3">
                     <label class="form-label">Nom</label>

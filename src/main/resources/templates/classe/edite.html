@@ -9,7 +9,7 @@
             Modification de la Classe
         </div>
         <div class="card-body">
-            <form th:action="@{/classes/update}" th:method="POST" th:object="${classe}">
+            <form th:action="@{/classe/update}" th:method="POST" th:object="${classe}">
                 <input type="hidden" th:value="${classe.id}" name="id">
                 <div class="mb-3">
                     <label class="form-label">Niveau</label>

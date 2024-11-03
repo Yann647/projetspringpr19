@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a th:href="@{/classes/ajout}" class="btn btn-primary">Ajouter</a>
+                    <a th:href="@{/classe/ajout}" class="btn btn-primary">Ajouter</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -29,8 +29,8 @@
                                 <td th:text="${classe.specialite}"> </td>
                                 <td th:text="${classe.libelle}"> </td>
                                 <td>
-                                    <a class="btn btn-primary" th:href="@{'/classes/edit/'+${classe.id}}">edit</a>
-                                    <a class="btn btn-danger" th:href="@{'/classes/supprimer/'+${classe.id}}">supprimer</a>
+                                    <a class="btn btn-primary" th:href="@{'/classe/edit/'+${classe.id}}">modifier</a>
+                                    <a class="btn btn-danger" th:href="@{'/classe/supprimer/'+${classe.id}}">supprimer</a>
                                 </td>
                             </tr>
                             </tbody>

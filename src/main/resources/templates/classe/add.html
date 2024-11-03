@@ -7,7 +7,7 @@
     <div class="card" style="width: 48rem;">
         <div class="card-header">Ajout d'une Classe</div>
         <div class="card-body">
-            <form th:action="@{/classes/save}" th:method="POST" th:object="${classe}">
+            <form th:action="@{/classe/save}" th:method="POST" th:object="${classe}">
                 <div class="mb-3">
                     <label class="form-label">Niveau</label>
                     <select class="form-control" id="niveau" name="niveau" required>

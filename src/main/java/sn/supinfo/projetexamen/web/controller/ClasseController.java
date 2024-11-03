@@ -7,7 +7,6 @@ import sn.supinfo.projetexamen.model.Classe;
 import sn.supinfo.projetexamen.repository.ClasseRepository;
 
 @Controller
-@RequestMapping("classe")
 public class ClasseController {
 
     private final ClasseRepository classeRepository;
@@ -16,37 +15,37 @@ public class ClasseController {
         this.classeRepository = classeRepository;
     }
 
-    @GetMapping("/liste")
+    @RequestMapping(value = "classe/liste")
     public String listClasses(Model model) {
         model.addAttribute("classes", classeRepository.findAll());
         return "classe/liste";
     }
 
-    @GetMapping("/ajout")
+    @RequestMapping(value = "classe/ajout")
     public String addClasse(Model model) {
         model.addAttribute("classe", new Classe());
         return "classe/add";
     }
 
-    @GetMapping("/edit/{id}")
+    @RequestMapping(value = "classe/edit/{id}")
     public String editClasse(@PathVariable long id, Model model) {
         model.addAttribute("classe", classeRepository.findById(id).orElse(null));
         return "classe/edite";
     }
 
-    @PostMapping("/save")
+    @RequestMapping(value = "classe/save")
     public String saveClasse(@ModelAttribute Classe classe) {
         classeRepository.save(classe);
         return "redirect:/classe/liste";
     }
 
-    @PostMapping("/update")
+    @RequestMapping(value = "classe/update")
     public String updateClasse(@ModelAttribute Classe classe) {
         classeRepository.save(classe);
         return "redirect:/classe/liste";
     }
 
-    @GetMapping("/supprimer/{id}")
+    @RequestMapping(value = "classe/supprimer/{id}")
     public String deleteClasse(@PathVariable long id) {
         classeRepository.deleteById(id);
         return "redirect:/classe/liste";
