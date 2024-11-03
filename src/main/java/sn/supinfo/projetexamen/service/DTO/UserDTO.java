@@ -8,6 +8,7 @@ public class UserDTO {
     private String telephone;
     private String email;
     private String login;
+    private String password;
 
     public Long getId() {
         return id;
@@ -55,5 +56,13 @@ public class UserDTO {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

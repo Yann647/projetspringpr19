@@ -8,6 +8,7 @@ public class EtudiantDTO {
     private String telephone;
     private String matricule;
     private Long classeId;
+    private String classeLibelle;
 
     public Long getId() {
         return id;
@@ -55,5 +56,13 @@ public class EtudiantDTO {
 
     public void setClasseId(Long classeId) {
         this.classeId = classeId;
+    }
+
+    public String getClasseLibelle() {
+        return classeLibelle;
+    }
+
+    public void setClasseLibelle(String classeLibelle) {
+        this.classeLibelle = classeLibelle;
     }
 }

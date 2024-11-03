@@ -1,59 +1,60 @@
 package sn.supinfo.projetexamen.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sn.supinfo.projetexamen.model.User;
-import sn.supinfo.projetexamen.service.DTO.UserDTO;
-import sn.supinfo.projetexamen.service.Mapper.UserMapper;
-import sn.supinfo.projetexamen.service.UserService;
-import sn.supinfo.projetexamen.web.rest.UserResource;
+import sn.supinfo.projetexamen.repository.UserRepository;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/users")
+@Controller
+@RequestMapping("user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        User user = userMapper.toEntity(userDTO);
-        User savedUser = userService.addUser(user);
-        return ResponseEntity.ok(userMapper.toDTO(savedUser));
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    @GetMapping
-    public List<UserDTO> listUsers() {
-        return userService.listUsers()
-                .stream()
-                .map(userMapper::toDTO)
-                .collect(Collectors.toList());
+    @GetMapping("/liste")
+    public String listUsers(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "user/liste";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok(userMapper.toDTO(user));
+    @GetMapping("/ajout")
+    public String addUser(Model model) {
+        model.addAttribute("user", new User());
+        return "user/add";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        User user = userMapper.toEntity(userDTO);
-        User updatedUser = userService.updateUser(id, user);
-        return ResponseEntity.ok(userMapper.toDTO(updatedUser));
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable long id, Model model) {
+        model.addAttribute("user", userRepository.findById(id).orElse(null));
+        return "user/edite";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok(UserResource.USER_NOT_FOUND);
+    @PostMapping("/save")
+    public String saveUser(@ModelAttribute User user) {
+        userRepository.save(user);
+        return "redirect:/user/liste";
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User user) {
+        userRepository.save(user);
+        return "redirect:/user/liste";
+    }
+
+    @GetMapping("/supprimer/{id}")
+    public String deleteUser(@PathVariable long id) {
+        userRepository.deleteById(id);
+        return "redirect:/user/liste";
     }
 
 

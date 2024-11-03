@@ -1,60 +1,58 @@
 package sn.supinfo.projetexamen.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sn.supinfo.projetexamen.model.Classe;
 import sn.supinfo.projetexamen.model.Etudiant;
-import sn.supinfo.projetexamen.service.DTO.EtudiantDTO;
-import sn.supinfo.projetexamen.service.EtudiantService;
-import sn.supinfo.projetexamen.service.Mapper.EtudiantMapper;
-import sn.supinfo.projetexamen.web.rest.EtudiantResource;
+import sn.supinfo.projetexamen.repository.EtudiantRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/etudiants")
+@Controller
+@RequestMapping("etudiant")
 public class EtudiantController {
 
-    @Autowired
-    private EtudiantService etudiantService;
+    private final EtudiantRepository etudiantRepository;
 
-    @Autowired
-    private EtudiantMapper etudiantMapper;
-
-    @PostMapping
-    public ResponseEntity<EtudiantDTO> createEtudiant(@RequestBody EtudiantDTO etudiantDTO) {
-        Etudiant etudiant = etudiantMapper.toEntity(etudiantDTO);
-        Etudiant savedEtudiant = etudiantService.addEtudiant(etudiant);
-        return ResponseEntity.ok(etudiantMapper.toDTO(savedEtudiant));
+    public EtudiantController(EtudiantRepository etudiantRepository) {
+        this.etudiantRepository = etudiantRepository;
     }
 
-    @GetMapping
-    public List<EtudiantDTO> listEtudiants() {
-        return etudiantService.listEtudiants()
-                .stream()
-                .map(etudiantMapper::toDTO)
-                .collect(Collectors.toList());
+    @GetMapping("/liste")
+    public String listEtudiants(Model model) {
+        model.addAttribute("etudiants", etudiantRepository.findAll());
+        return "etudiant/liste";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EtudiantDTO> getEtudiantById(@PathVariable Long id) {
-        Etudiant etudiant = etudiantService.getEtudiantById(id);
-        return ResponseEntity.ok(etudiantMapper.toDTO(etudiant));
+    @GetMapping("/ajout")
+    public String addEtudiant(Model model) {
+        model.addAttribute("etudiant", new Etudiant());
+        return "etudiant/add";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EtudiantDTO> updateEtudiant(@PathVariable Long id, @RequestBody EtudiantDTO etudiantDTO) {
-        Etudiant etudiant = etudiantMapper.toEntity(etudiantDTO);
-        Etudiant updatedEtudiant = etudiantService.updateEtudiant(id, etudiant);
-        return ResponseEntity.ok(etudiantMapper.toDTO(updatedEtudiant));
+    @GetMapping("/edit/{id}")
+    public String editEtudiant(@PathVariable long id, Model model) {
+        model.addAttribute("etudiant", etudiantRepository.findById(id).orElse(null));
+        return "etudiant/edite";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEtudiant(@PathVariable Long id) {
-        etudiantService.deleteEtudiant(id);
-        return ResponseEntity.ok(EtudiantResource.ETUDIANT_NOT_FOUND);
+    @PostMapping("/save")
+    public String saveEtudiant(@ModelAttribute Etudiant etudiant) {
+        etudiantRepository.save(etudiant);
+        return "redirect:/etudiant/liste";
+    }
+
+    @PostMapping("/update")
+    public String updateEtudiant(@ModelAttribute Etudiant etudiant) {
+        etudiantRepository.save(etudiant);
+        return "redirect:/etudiant/liste";
+    }
+
+    @GetMapping("/supprimer/{id}")
+    public String deleteEtudiant(@PathVariable long id) {
+        etudiantRepository.deleteById(id);
+        return "redirect:/etudiant/liste";
     }
 
 

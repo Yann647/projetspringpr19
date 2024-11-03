@@ -1,53 +1,55 @@
 package sn.supinfo.projetexamen.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sn.supinfo.projetexamen.model.Classe;
-import sn.supinfo.projetexamen.service.ClasseService;
-import sn.supinfo.projetexamen.service.DTO.ClasseDTO;
-import sn.supinfo.projetexamen.service.Mapper.ClasseMapper;
-import sn.supinfo.projetexamen.web.rest.ClasseResource;
+import sn.supinfo.projetexamen.repository.ClasseRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-@RestController
-@RequestMapping("/api/classes")
+@Controller
+@RequestMapping("classe")
 public class ClasseController {
 
-    @Autowired
-    private ClasseService classeService;
+    private final ClasseRepository classeRepository;
 
-    @Autowired
-    private ClasseMapper classeMapper;
-
-    @PostMapping
-    public ResponseEntity<ClasseDTO> createClasse(@RequestBody ClasseDTO classeDTO) {
-        Classe classe = classeMapper.toEntity(classeDTO);
-        Classe savedClasse = classeService.addClasse(classe);
-        return ResponseEntity.ok(classeMapper.toDTO(savedClasse));
+    public ClasseController(ClasseRepository classeRepository) {
+        this.classeRepository = classeRepository;
     }
 
-    @GetMapping
-    public List<ClasseDTO> listClasses() {
-        return classeService.listClasses()
-                .stream()
-                .map(classeMapper::toDTO)
-                .collect(Collectors.toList());
+    @GetMapping("/liste")
+    public String listClasses(Model model) {
+        model.addAttribute("classes", classeRepository.findAll());
+        return "classe/liste";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ClasseDTO> updateClasse(@PathVariable Long id, @RequestBody ClasseDTO classeDTO) {
-        Classe classe = classeMapper.toEntity(classeDTO);
-        Classe updatedClasse = classeService.updateClasse(id, classe);
-        return ResponseEntity.ok(classeMapper.toDTO(updatedClasse));
+    @GetMapping("/ajout")
+    public String addClasse(Model model) {
+        model.addAttribute("classe", new Classe());
+        return "classe/add";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClasse(@PathVariable Long id) {
-        classeService.deleteClasse(id);
-        return ResponseEntity.ok(ClasseResource.CLASSE_DELETED_SUCCESS);
+    @GetMapping("/edit/{id}")
+    public String editClasse(@PathVariable long id, Model model) {
+        model.addAttribute("classe", classeRepository.findById(id).orElse(null));
+        return "classe/edite";
+    }
+
+    @PostMapping("/save")
+    public String saveClasse(@ModelAttribute Classe classe) {
+        classeRepository.save(classe);
+        return "redirect:/classe/liste";
+    }
+
+    @PostMapping("/update")
+    public String updateClasse(@ModelAttribute Classe classe) {
+        classeRepository.save(classe);
+        return "redirect:/classe/liste";
+    }
+
+    @GetMapping("/supprimer/{id}")
+    public String deleteClasse(@PathVariable long id) {
+        classeRepository.deleteById(id);
+        return "redirect:/classe/liste";
     }
 
 

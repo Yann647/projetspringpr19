@@ -1,53 +1,59 @@
 package sn.supinfo.projetexamen.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sn.supinfo.projetexamen.model.Agent;
-import sn.supinfo.projetexamen.service.AgentService;
-import sn.supinfo.projetexamen.service.DTO.AgentDTO;
-import sn.supinfo.projetexamen.service.Mapper.AgentMapper;
-import sn.supinfo.projetexamen.web.rest.AgentResource;
+import sn.supinfo.projetexamen.repository.AgentRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/agents")
+@Controller
+@RequestMapping("agent")
 public class AgentController {
 
-    @Autowired
-    private AgentService agentService;
+    private final AgentRepository agentRepository;
 
-    @Autowired
-    private AgentMapper agentMapper;
-
-    @PostMapping
-    public ResponseEntity<AgentDTO> createAgent(@RequestBody AgentDTO agentDTO) {
-        Agent agent = agentMapper.toEntity(agentDTO);
-        Agent savedAgent = agentService.addAgent(agent);
-        return ResponseEntity.ok(agentMapper.toDTO(savedAgent));
+    public AgentController(AgentRepository agentRepository) {
+        this.agentRepository = agentRepository;
     }
 
-    @GetMapping
-    public List<AgentDTO> listAgents() {
-        return agentService.listAgents()
-                .stream()
-                .map(agentMapper::toDTO)
-                .collect(Collectors.toList());
+    @GetMapping("/liste")
+    public String listAgents(Model model) {
+        model.addAttribute("agents", agentRepository.findAll());
+        return "agent/liste";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AgentDTO> updateAgent(@PathVariable Long id, @RequestBody AgentDTO agentDTO) {
-        Agent agent = agentMapper.toEntity(agentDTO);
-        Agent updatedAgent = agentService.updateAgent(id, agent);
-        return ResponseEntity.ok(agentMapper.toDTO(updatedAgent));
+    @GetMapping("/ajout")
+    public String addAgent(Model model) {
+        model.addAttribute("agent", new Agent());
+        return "agent/add";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAgent(@PathVariable Long id) {
-        agentService.deleteAgent(id);
-        return ResponseEntity.ok(AgentResource.AGENT_NOT_FOUND);
+    @GetMapping("/edit/{id}")
+    public String editAgent(@PathVariable long id, Model model) {
+        model.addAttribute("agent", agentRepository.findById(id).orElse(null));
+        return "agent/edite";
     }
+
+    @PostMapping("/save")
+    public String saveAgent(@ModelAttribute Agent agent) {
+        agentRepository.save(agent);
+        return "redirect:/agent/liste";
+    }
+
+    @PostMapping("/update")
+    public String updateAgent(@ModelAttribute Agent agent) {
+        agentRepository.save(agent);
+        return "redirect:/agent/liste";
+    }
+
+    @GetMapping("/supprimer/{id}")
+    public String deleteAgent(@PathVariable long id) {
+        agentRepository.deleteById(id);
+        return "redirect:/agent/liste";
+    }
+
 
 }
