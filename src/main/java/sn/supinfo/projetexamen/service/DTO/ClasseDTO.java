@@ -1,15 +1,18 @@
 package sn.supinfo.projetexamen.service.DTO;
 
+import sn.supinfo.projetexamen.constant.Niveau;
+import sn.supinfo.projetexamen.constant.Specialite;
+
 public class ClasseDTO {
 
     private Long id;
-    private String niveau;
-    private String specialite;
+    private Niveau niveau;
+    private Specialite specialite;
     private String libelle;
 
     public ClasseDTO() {}
 
-    public ClasseDTO(Long id, String niveau, String specialite, String libelle) {
+    public ClasseDTO(Long id, Niveau niveau, Specialite specialite, String libelle) {
         this.id = id;
         this.niveau = niveau;
         this.specialite = specialite;
@@ -24,19 +27,19 @@ public class ClasseDTO {
         this.id = id;
     }
 
-    public String getNiveau() {
+    public Niveau getNiveau() {
         return niveau;
     }
 
-    public void setNiveau(String niveau) {
+    public void setNiveau(Niveau niveau) {
         this.niveau = niveau;
     }
 
-    public String getSpecialite() {
+    public Specialite getSpecialite() {
         return specialite;
     }
 
-    public void setSpecialite(String specialite) {
+    public void setSpecialite(Specialite specialite) {
         this.specialite = specialite;
     }
 

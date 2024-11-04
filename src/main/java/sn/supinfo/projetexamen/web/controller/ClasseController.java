@@ -33,7 +33,7 @@ public class ClasseController {
         return "classe/edite";
     }
 
-    @RequestMapping(value = "classe/save")
+    @RequestMapping(value = "classe/save", method = RequestMethod.POST)
     public String saveClasse(@ModelAttribute Classe classe) {
         classeRepository.save(classe);
         return "redirect:/classe/liste";

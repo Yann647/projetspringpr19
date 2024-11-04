@@ -19,7 +19,26 @@
                 <div class="mb-3">
                     <label class="form-label">Classe</label>
                     <select class="form-control" id="classe" name="classe" th:field="*{classe}" required>
+                        <option value="" disabled selected>Choisir une classe</option>
                         <option th:each="classe : ${classes}" th:value="${classe.id}" th:text="${classe.libelle}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Niveau</label>
+                    <select class="form-control" id="niveau" name="niveau" th:field="*{niveau}" required>
+                        <option value="" disabled selected>Choisir un niveau</option>
+                        <option th:each="niveau : ${T(sn.supinfo.projetexamen.constant.Niveau).values()}"
+                                th:value="${niveau}"
+                                th:text="${niveau}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Spécialité</label>
+                    <select class="form-control" id="specialite" name="specialite" th:field="*{specialite}" required>
+                        <option value="" disabled selected>Choisir une spécialité</option>
+                        <option th:each="specialite : ${T(sn.supinfo.projetexamen.constant.Specialite).values()}"
+                                th:value="${specialite}"
+                                th:text="${specialite}"></option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Terminer</button>

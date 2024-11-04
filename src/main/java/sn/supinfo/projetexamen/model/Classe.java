@@ -1,9 +1,8 @@
 package sn.supinfo.projetexamen.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import sn.supinfo.projetexamen.constant.Niveau;
+import sn.supinfo.projetexamen.constant.Specialite;
 
 @Entity
 public class Classe {
@@ -11,17 +10,20 @@ public class Classe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String niveau;
-    private String specialite;
+    @Enumerated(EnumType.STRING)
+    private Niveau niveau;
+    @Enumerated(EnumType.STRING)
+    private Specialite specialite;
     private String libelle;
 
     public Classe() {}
 
-    public Classe(String niveau, String specialite) {
+    public Classe(Niveau niveau, Specialite specialite) {
         this.niveau = niveau;
         this.specialite = specialite;
-        this.libelle = niveau + specialite.substring(0, 2); // Génération de libelle
+        this.libelle = niveau + specialite.toString().substring(0, 2);
     }
+
 
     public Long getId() {
         return id;
@@ -31,19 +33,19 @@ public class Classe {
         this.id = id;
     }
 
-    public String getNiveau() {
+    public Niveau getNiveau() {
         return niveau;
     }
 
-    public void setNiveau(String niveau) {
+    public void setNiveau(Niveau niveau) {
         this.niveau = niveau;
     }
 
-    public String getSpecialite() {
+    public Specialite getSpecialite() {
         return specialite;
     }
 
-    public void setSpecialite(String specialite) {
+    public void setSpecialite(Specialite specialite) {
         this.specialite = specialite;
     }
 
@@ -54,9 +56,4 @@ public class Classe {
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
-
-    public void generateLibelle() {
-        this.libelle = niveau + specialite.substring(0, 2).toUpperCase();
-    }
-
 }

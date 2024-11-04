@@ -13,11 +13,23 @@
                 <input type="hidden" th:value="${classe.id}" name="id">
                 <div class="mb-3">
                     <label class="form-label">Niveau</label>
-                    <input type="text" class="form-control" th:value="${classe.niveau}" name="niveau" required>
+                    <select class="form-control" id="niveau" name="niveau" th:field="*{niveau}" required>
+                        <option value="" disabled>Choisir un niveau</option>
+                        <option th:each="niveau : ${T(sn.supinfo.projetexamen.constant.Niveau).values()}"
+                                th:value="${niveau}"
+                                th:text="${niveau}"
+                                th:selected="${niveau == classe.niveau}"></option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Spécialité</label>
-                    <input type="text" class="form-control" th:value="${classe.specialite}" name="specialite" required>
+                    <select class="form-control" id="specialite" name="specialite" th:field="*{specialite}" required>
+                        <option value="" disabled>Choisir une spécialité</option>
+                        <option th:each="specialite : ${T(sn.supinfo.projetexamen.constant.Specialite).values()}"
+                                th:value="${specialite}"
+                                th:text="${specialite}"
+                                th:selected="${specialite == classe.specialite}"></option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Libellé</label>
